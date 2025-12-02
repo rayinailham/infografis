@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functional Specification Document (FSD) - AI Essay Preparedness Grader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .doc-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        .doc-header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 24px;
+        }
+        .doc-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .doc-meta {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .doc-content {
+            color: #334155;
+        }
+        .doc-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 2.5em;
+            margin-bottom: 1em;
+            padding-bottom: 0.5em;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .doc-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-top: 2em;
+            margin-bottom: 0.75em;
+        }
+        .doc-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .doc-content p {
+            margin-bottom: 1.5em;
+            line-height: 1.7;
+        }
+        .doc-content ul, .doc-content ol {
+            margin-bottom: 1.5em;
+            padding-left: 1.5em;
+        }
+        .doc-content li {
+            margin-bottom: 0.5em;
+        }
+        .doc-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2em;
+            font-size: 0.95rem;
+        }
+        .doc-content th, .doc-content td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            text-align: left;
+        }
+        .doc-content th {
+            background-color: #f8f9fc;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        .doc-content code {
+            background-color: #f1f5f9;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #0f172a;
+        }
+        .doc-content pre {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 1.5em;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 2em;
+        }
+        .doc-content pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f1f5f9;
+            color: #1a1a2e;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            transition: all 0.2s;
+        }
+        .back-button:hover {
+            background-color: #e2e8f0;
+            transform: translateX(-2px);
+        }
+        .toc {
+            background: #f8f9fc;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+        .toc h2 {
+            margin-top: 0;
+            font-size: 1.25rem;
+        }
+        .toc ul {
+            margin-bottom: 0;
+            list-style: none;
+            padding-left: 0;
+        }
+        .toc li {
+            margin-bottom: 8px;
+        }
+        .toc a {
+            color: #4f46e5;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="doc-container">
+        <a href="/" class="back-button">← Kembali ke Infografis</a>
+        
+        <div class="doc-header">
+            <h1 class="doc-title">Functional Specification Document (FSD)<br>AI Essay Preparedness Grader</h1>
+            <div class="doc-meta">
+                <p><strong>Versi:</strong> 1.3</p>
+                <p><strong>Tanggal:</strong> 2 Desember 2025</p>
+                <p><strong>Author:</strong> Nabil Al Faros, Rayina Ilham</p>
+            </div>
+        </div>
+
+        <div class="doc-content">
+            <div class="toc">
+                <h2>DAFTAR ISI</h2>
+                <ul>
+                    <li><a href="#high-level-process">High Level Process & Workflows</a></li>
+                    <li><a href="#technical-specifications">Technical Specifications</a></li>
+                    <li><a href="#database-design">Database Design</a></li>
+                    <li><a href="#api-specification">API Specification & Features</a></li>
+                    <li><a href="#frontend-specification">Frontend Specification</a></li>
+                    <li><a href="#admin-dashboard">Admin Dashboard Specification</a></li>
+                </ul>
+            </div>
+
+            <h1 id="high-level-process">High Level Process & Workflows</h1>
+            <p>The <strong>AI Essay Preparedness Grader</strong> is a microservices-based system designed to evaluate a student's readiness for a specific college major through an interactive AI-driven interview session. The following workflows describe the core processes of the system.</p>
+
+            <h2 id="1-complete-grading-session-flow">1. Complete Grading Session Flow</h2>
+            <p>This is the primary user journey, from login to receiving the final report.</p>
+            <ol>
+                <li><strong>Authentication</strong>: User logs in via Frontend. API Gateway routes to Auth Service, which validates credentials against the Database and returns a JWT.</li>
+                <li><strong>Session Initiation</strong>: User requests to start a grading session. Session Service creates a new session record in the Database.</li>
+                <li><strong>Real-time Connection</strong>: Frontend connects to the WebSocket Service using the session ID.</li>
+                <li><strong>AI Conversation Loop</strong>:
+                    <ul>
+                        <li><strong>Question</strong>: Grading Session Service requests a question from the AI Service (Grading Worker). AI Service calls Google Gemini API. The question is saved to the DB and sent to the user via WebSocket.</li>
+                        <li><strong>Answer</strong>: User submits an answer. It is sent via WebSocket to the Grading Session Service.</li>
+                        <li><strong>Analysis</strong>: The answer is saved and sent to the AI Service for analysis. Google Gemini evaluates the answer and assigns a score.</li>
+                        <li><strong>Scoring</strong>: The score is updated in the Database. If the threshold is met or max questions reached, the loop ends.</li>
+                    </ul>
+                </li>
+                <li><strong>Completion</strong>: The session is marked as completed.</li>
+                <li><strong>Reporting</strong>: AI Service generates a comprehensive final report. Result Service saves this report. The user receives the final result via the Frontend.</li>
+            </ol>
+
+            <h2 id="2-user-registration-flow">2. User Registration Flow</h2>
+            <ol>
+                <li>User submits registration form.</li>
+                <li><strong>Auth Service</strong> creates a user in <strong>Firebase Authentication</strong>.</li>
+                <li>Upon success, Auth Service creates a corresponding user profile in the local <strong>PostgreSQL Database</strong>.</li>
+                <li>Registration success response is returned to the user.</li>
+            </ol>
+
+            <h2 id="3-real-time-communication-flow">3. Real-time Communication Flow</h2>
+            <ol>
+                <li><strong>Connection</strong>: Frontend connects to WebSocket Service with a JWT.</li>
+                <li><strong>Validation</strong>: WebSocket Service validates the session with Grading Session Service.</li>
+                <li><strong>Exchange</strong>:
+                    <ul>
+                        <li><strong>AI -> User</strong>: Questions are broadcasted to the specific session room.</li>
+                        <li><strong>User -> AI</strong>: Answers are emitted to the server, processed, and acknowledged.</li>
+                    </ul>
+                </li>
+                <li><strong>Disconnection</strong>: On session end or network loss, the connection is closed. Reconnection logic handles state recovery.</li>
+            </ol>
+
+            <h2 id="4-ai-service-integration-flow">4. AI Service Integration Flow</h2>
+            <ol>
+                <li><strong>Question Generation</strong>: AI Service checks Cache (Redis) for similar questions. If miss, calls Google Gemini with a prompt template.</li>
+                <li><strong>Answer Analysis</strong>: User answer is analyzed against the question context using Gemini. Result includes a numerical score and qualitative feedback.</li>
+                <li><strong>Final Report</strong>: Aggregates the entire conversation history and requests a summary analysis from Gemini (Strengths, Weaknesses, Recommendations).</li>
+            </ol>
+
+            <h2 id="5-error-handling-recovery">5. Error Handling & Recovery</h2>
+            <ul>
+                <li><strong>AI Service Error</strong>: If Gemini fails, the system retries. If it persists, the session is marked as failed or degraded, and the user is notified.</li>
+                <li><strong>Database Error</strong>: Connection failures trigger retry logic. Critical failures notify the user of service degradation.</li>
+                <li><strong>WebSocket Disconnection</strong>: Frontend attempts reconnection. Missed messages are retrieved from the message history in the Database.</li>
+            </ul>
+
+            <h2 id="6-session-timeout-cleanup">6. Session Timeout & Cleanup</h2>
+            <ul>
+                <li><strong>Scheduler</strong>: Periodically checks for active sessions that have exceeded their <code>expires_at</code> time.</li>
+                <li><strong>Cleanup</strong>: Expired sessions are marked as <code>expired</code>. WebSocket connections are forced closed. Partial results may be generated if sufficient data exists.</li>
+            </ul>
+
+            <h1 id="technical-specifications">Technical Specifications</h1>
+
+            <h2 id="infrastructure">Infrastructure</h2>
+            <ul>
+                <li><strong>Containerization</strong>: Docker & Docker Compose</li>
+                <li><strong>Gateway</strong>: API Gateway (Port 4000) handling routing and load balancing.</li>
+                <li><strong>Tunneling</strong>: Cloudflare Tunnel for secure public access.</li>
+            </ul>
+
+            <h2 id="backend-stack">Backend Stack</h2>
+            <ul>
+                <li><strong>Language</strong>: TypeScript</li>
+                <li><strong>Runtime</strong>: Node.js / Bun</li>
+                <li><strong>Frameworks</strong>: Hono (Auth Service), Express/Fastify (others).</li>
+                <li><strong>Communication</strong>: REST API (Inter-service), Socket.io (Real-time).</li>
+            </ul>
+
+            <h2 id="external-services">External Services</h2>
+            <ul>
+                <li><strong>Authentication</strong>: Firebase Authentication.</li>
+                <li><strong>AI Engine</strong>: Google Gemini API (<code>gemini-1.5-flash</code>).</li>
+            </ul>
+
+            <h1 id="database-design">Database Design</h1>
+            <p>The database is implemented in <strong>PostgreSQL</strong>. Below is the detailed schema specification.</p>
+
+            <h3>1. Users Table (<code>users</code>)</h3>
+            <p>Stores user profile information and links to Firebase Auth.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Constraints</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>id</code></td><td>UUID</td><td>PK</td><td>Unique identifier for the user.</td></tr>
+                    <tr><td><code>email</code></td><td>VARCHAR(255)</td><td>UNIQUE, NOT NULL</td><td>User's email address.</td></tr>
+                    <tr><td><code>full_name</code></td><td>VARCHAR(255)</td><td>NOT NULL</td><td>User's full name.</td></tr>
+                    <tr><td><code>birth_date</code></td><td>DATE</td><td>NOT NULL</td><td>User's date of birth.</td></tr>
+                    <tr><td><code>school_origin</code></td><td>VARCHAR(255)</td><td>NOT NULL</td><td>Name of the user's school.</td></tr>
+                    <tr><td><code>dream_major</code></td><td>VARCHAR(255)</td><td>NOT NULL</td><td>The major the user aspires to enter.</td></tr>
+                    <tr><td><code>firebase_uid</code></td><td>VARCHAR(255)</td><td>UNIQUE, NOT NULL</td><td>UID from Firebase Authentication.</td></tr>
+                    <tr><td><code>phone_number</code></td><td>VARCHAR(20)</td><td>NULLABLE</td><td>User's phone number.</td></tr>
+                    <tr><td><code>avatar_url</code></td><td>TEXT</td><td>NULLABLE</td><td>URL to user's profile picture.</td></tr>
+                    <tr><td><code>email_verified</code></td><td>BOOLEAN</td><td>DEFAULT false</td><td>Email verification status.</td></tr>
+                    <tr><td><code>created_at</code></td><td>TIMESTAMP</td><td>NOT NULL</td><td>Record creation time.</td></tr>
+                    <tr><td><code>updated_at</code></td><td>TIMESTAMP</td><td>NOT NULL</td><td>Record last update time.</td></tr>
+                    <tr><td><code>is_active</code></td><td>BOOLEAN</td><td>NOT NULL</td><td>Soft delete/account status flag.</td></tr>
+                </tbody>
+            </table>
+
+            <h3>2. Grading Sessions Table (<code>grading_sessions</code>)</h3>
+            <p>Manages the state of a grading interview session.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Constraints</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>id</code></td><td>UUID</td><td>PK</td><td>Unique identifier for the session.</td></tr>
+                    <tr><td><code>user_id</code></td><td>UUID</td><td>FK (users.id)</td><td>The user taking the session.</td></tr>
+                    <tr><td><code>target_major</code></td><td>VARCHAR(255)</td><td>NOT NULL</td><td>The major being tested in this session.</td></tr>
+                    <tr><td><code>status</code></td><td>ENUM</td><td>'active', 'completed', 'expired'</td><td>Current state of the session.</td></tr>
+                    <tr><td><code>current_score</code></td><td>INTEGER</td><td>DEFAULT 0</td><td>Cumulative score of the user.</td></tr>
+                    <tr><td><code>threshold_score</code></td><td>INTEGER</td><td>DEFAULT 70</td><td>Score required to pass/complete.</td></tr>
+                    <tr><td><code>question_count</code></td><td>INTEGER</td><td>DEFAULT 0</td><td>Number of questions asked so far.</td></tr>
+                    <tr><td><code>max_questions</code></td><td>INTEGER</td><td>DEFAULT 10</td><td>Maximum questions allowed in the session.</td></tr>
+                    <tr><td><code>session_duration_minutes</code></td><td>INTEGER</td><td>DEFAULT 60</td><td>Time limit for the session.</td></tr>
+                    <tr><td><code>started_at</code></td><td>TIMESTAMP</td><td>NOT NULL</td><td>When the session began.</td></tr>
+                    <tr><td><code>completed_at</code></td><td>TIMESTAMP</td><td>NULLABLE</td><td>When the session finished.</td></tr>
+                    <tr><td><code>expires_at</code></td><td>TIMESTAMP</td><td>NOT NULL</td><td>When the session will timeout.</td></tr>
+                    <tr><td><code>created_at</code></td><td>TIMESTAMP</td><td>NOT NULL</td><td>Record creation time.</td></tr>
+                    <tr><td><code>updated_at</code></td><td>TIMESTAMP</td><td>NOT NULL</td><td>Record last update time.</td></tr>
+                </tbody>
+            </table>
+
+            <h3>3. Messages Table (<code>messages</code>)</h3>
+            <p>Stores the conversation history between the User and the AI.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Constraints</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>id</code></td><td>UUID</td><td>PK</td><td>Unique identifier for the message.</td></tr>
+                    <tr><td><code>session_id</code></td><td>UUID</td><td>FK (grading_sessions.id)</td><td>The session this message belongs to.</td></tr>
+                    <tr><td><code>message_type</code></td><td>ENUM</td><td>'question', 'answer'</td><td>Sender type (AI=question, User=answer).</td></tr>
+                    <tr><td><code>content</code></td><td>TEXT</td><td>NOT NULL</td><td>The actual text content of the message.</td></tr>
+                    <tr><td><code>score</code></td><td>INTEGER</td><td>NULLABLE</td><td>Score assigned to an answer (null for questions).</td></tr>
+                    <tr><td><code>is_analyzed</code></td><td>BOOLEAN</td><td>DEFAULT false</td><td>Whether AI has processed this message.</td></tr>
+                    <tr><td><code>created_at</code></td><td>TIMESTAMP</td><td>NOT NULL</td><td>Message timestamp.</td></tr>
+                    <tr><td><code>updated_at</code></td><td>TIMESTAMP</td><td>NOT NULL</td><td>Record last update time.</td></tr>
+                </tbody>
+            </table>
+
+            <h3>4. Grading Results Table (<code>grading_results</code>)</h3>
+            <p>Stores the final analysis and outcome of a session.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Constraints</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>id</code></td><td>UUID</td><td>PK</td><td>Unique identifier for the result.</td></tr>
+                    <tr><td><code>session_id</code></td><td>UUID</td><td>FK (grading_sessions.id), UNIQUE</td><td>The session this result belongs to.</td></tr>
+                    <tr><td><code>final_score</code></td><td>INTEGER</td><td>NOT NULL</td><td>The final calculated score (0-100).</td></tr>
+                    <tr><td><code>readiness_level</code></td><td>ENUM</td><td>'not_ready', 'somewhat_ready', 'ready', 'very_ready'</td><td>Categorical assessment of readiness.</td></tr>
+                    <tr><td><code>analysis_report</code></td><td>JSONB</td><td>NOT NULL</td><td>Detailed structured report (strengths, weaknesses, etc.).</td></tr>
+                    <tr><td><code>created_at</code></td><td>TIMESTAMP</td><td>NOT NULL</td><td>Record creation time.</td></tr>
+                    <tr><td><code>updated_at</code></td><td>TIMESTAMP</td><td>NOT NULL</td><td>Record last update time.</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Relationships</h3>
+            <ul>
+                <li><strong>Users 1:N Grading Sessions</strong>: A user can have multiple grading sessions.</li>
+                <li><strong>Grading Sessions 1:N Messages</strong>: A session consists of multiple messages.</li>
+                <li><strong>Grading Sessions 1:1 Grading Results</strong>: A session produces exactly one final result.</li>
+            </ul>
+
+            <h1 id="api-specification">API Specification & Features</h1>
+            <p>The system exposes a RESTful API via the API Gateway. All endpoints (except Auth) require a <code>Bearer &lt;jwt_token&gt;</code> header.</p>
+
+            <h2 id="1-auth-service">1. Auth Service (<code>/auth/*</code>)</h2>
+            <p>Handles user identity and profile management.</p>
+            <ul>
+                <li><code>POST /auth/register</code>: Register a new user.</li>
+                <li><code>POST /auth/login</code>: Login and retrieve JWT.</li>
+                <li><code>POST /auth/refresh</code>: Refresh an expired access token.</li>
+                <li><code>POST /auth/logout</code>: Invalidate the current session.</li>
+                <li><code>GET /auth/me</code>: Retrieve current user's profile.</li>
+                <li><code>PATCH /auth/profile</code>: Update user profile details.</li>
+                <li><code>POST /auth/forgot-password</code>: Initiate password reset flow.</li>
+                <li><code>POST /auth/reset-password</code>: Complete password reset.</li>
+                <li><code>DELETE /auth/user</code>: Delete user account.</li>
+            </ul>
+
+            <h2 id="2-session-service">2. Session Service (<code>/grading-sessions/*</code>)</h2>
+            <p>Manages the grading session lifecycle.</p>
+            <ul>
+                <li><code>POST /grading-sessions</code>: Create/Start a new grading session.
+                    <ul><li><em>Payload</em>: <code>target_major</code>, <code>max_questions</code>, <code>session_duration_minutes</code>.</li></ul>
+                </li>
+                <li><code>GET /grading-sessions/{session_id}</code>: Get details of a specific session.</li>
+                <li><code>GET /grading-sessions</code>: List user's sessions (supports pagination & filtering).</li>
+                <li><code>POST /grading-sessions/{session_id}/complete</code>: Manually complete a session.</li>
+                <li><code>GET /grading-sessions/{session_id}/messages</code>: Retrieve chat history for a session.</li>
+                <li><code>POST /grading-sessions/{session_id}/messages</code>: Send a message (fallback for WebSocket).</li>
+            </ul>
+
+            <h2 id="3-result-service">3. Result Service (<code>/grading-results/*</code>)</h2>
+            <p>Retrieves final grading outcomes.</p>
+            <ul>
+                <li><code>GET /grading-results/{session_id}</code>: Get the result for a specific session.
+                    <ul><li><em>Response</em>: Includes <code>final_score</code>, <code>readiness_level</code>, and the full <code>analysis_report</code>.</li></ul>
+                </li>
+                <li><code>GET /grading-results</code>: List user's past results.</li>
+            </ul>
+
+            <h2 id="4-websocket-service">4. WebSocket Service (Socket.io)</h2>
+            <p>Handles real-time interaction during the session.</p>
+            <ul>
+                <li><strong>Namespace</strong>: <code>/</code> (Root)</li>
+                <li><strong>Events</strong>:
+                    <ul>
+                        <li><code>join_session</code>: Client joins a session room.</li>
+                        <li><code>question</code>: Server sends a new question to Client.</li>
+                        <li><code>answer</code>: Client sends an answer to Server.</li>
+                        <li><code>score_update</code>: Server sends real-time score feedback.</li>
+                        <li><code>session_completed</code>: Server notifies that the session has ended.</li>
+                        <li><code>error</code>: Server sends error details (e.g., session expired).</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2 id="5-error-handling">5. Error Handling</h2>
+            <p>Standardized error response format:</p>
+            <pre><code>{
+  "success": false,
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human readable message",
+    "details": { ... }
+  }
+}</code></pre>
+            <p><strong>Common Error Codes:</strong></p>
+            <ul>
+                <li><code>UNAUTHORIZED</code> (401): Missing/Invalid Token.</li>
+                <li><code>FORBIDDEN</code> (403): Access denied.</li>
+                <li><code>NOT_FOUND</code> (404): Resource not found.</li>
+                <li><code>VALIDATION_ERROR</code> (400): Bad request data.</li>
+                <li><code>SESSION_EXPIRED</code> (410): Session is no longer active.</li>
+                <li><code>RATE_LIMIT_EXCEEDED</code> (429): Too many requests.</li>
+            </ul>
+
+            <h1 id="frontend-specification">Frontend Specification</h1>
+            <p>The frontend application is built using <strong>Next.js 16</strong> with <strong>React 19</strong> and provides a modern, responsive user interface for the AI Essay Preparedness Grader platform.</p>
+
+            <h2 id="1-technology-stack">1. Technology Stack</h2>
+            <h3>Core Framework</h3>
+            <ul>
+                <li><strong>Framework</strong>: Next.js 16.0.0 (App Router)</li>
+                <li><strong>Language</strong>: TypeScript 5.5.3</li>
+                <li><strong>React</strong>: React 19.0.0 (RC)</li>
+                <li><strong>Runtime</strong>: Node.js</li>
+            </ul>
+            <h3>UI & Styling</h3>
+            <ul>
+                <li><strong>CSS Framework</strong>: Tailwind CSS 3.4.6</li>
+                <li><strong>UI Components</strong>: Custom components with Radix UI primitives</li>
+                <li><strong>Animation Libraries</strong>: Framer Motion 11.3.19, GSAP 3.12.4</li>
+                <li><strong>Icons</strong>: Heroicons 2.1.5, Lucide React 0.408.0</li>
+                <li><strong>Scroll Behavior</strong>: Lenis 1.3.13</li>
+            </ul>
+            <h3>State Management & Data Fetching</h3>
+            <ul>
+                <li><strong>Server State</strong>: TanStack React Query 5.51.1</li>
+                <li><strong>Client State</strong>: Zustand 4.5.4</li>
+                <li><strong>HTTP Client</strong>: Axios 1.7.2</li>
+                <li><strong>Real-time</strong>: Socket.io-client 4.7.5</li>
+            </ul>
+            <h3>Form & Validation</h3>
+            <ul>
+                <li><strong>Form Management</strong>: React Hook Form 7.52.1</li>
+                <li><strong>Schema Validation</strong>: Zod 3.23.8</li>
+                <li><strong>Form Resolvers</strong>: @hookform/resolvers 3.7.0</li>
+            </ul>
+            <h3>Utilities</h3>
+            <ul>
+                <li><strong>Date Handling</strong>: date-fns 3.6.0</li>
+                <li><strong>Toast Notifications</strong>: React Hot Toast 2.4.1</li>
+                <li><strong>Charts</strong>: Recharts 2.12.7</li>
+                <li><strong>Cookie Management</strong>: js-cookie 3.0.5</li>
+                <li><strong>Class Utilities</strong>: clsx 2.1.1, tailwind-merge 2.4.0, class-variance-authority 0.7.1</li>
+            </ul>
+
+            <h2 id="2-application-architecture">2. Application Architecture</h2>
+            <h3>Directory Structure</h3>
+            <pre><code>src/
+├── app/                    # Next.js App Router pages
+│   ├── auth/              # Authentication page (Login/Register)
+│   ├── dashboard/         # User dashboard
+│   ├── essay-grader/      # Main grading interface
+│   │   ├── confirmation/  # Session confirmation
+│   │   └── result/        # Session results
+│   ├── profile/           # User profile management
+│   │   ├── assessments/   # Assessment history
+│   │   └── result/        # Detailed result view
+│   │       └── [resultId]/ # Dynamic result page
+│   └── navbar-demo/       # Component demo page
+├── components/
+│   ├── layout/            # Layout components (Navigation, Footer)
+│   ├── providers/         # Context providers
+│   ├── sections/          # Landing page sections
+│   └── ui/                # Reusable UI components
+├── hooks/                 # Custom React hooks
+├── lib/
+│   ├── services/          # API service modules
+│   └── utils.ts           # Utility functions
+├── data/                  # Static data (schools, majors)
+└── types/                 # TypeScript type definitions</code></pre>
+
+            <h2 id="3-pages-routes">3. Pages & Routes</h2>
+            <h3>3.1 Landing Page (<code>/</code>)</h3>
+            <ul>
+                <li><strong>Purpose</strong>: Marketing page for unauthenticated users</li>
+                <li><strong>Components</strong>: <code>ProdiPlanNavBar</code>, <code>Hero</code>, <code>Features</code>, <code>HowItWorks</code>, <code>Testimonials</code>, <code>CTA</code>, <code>Footer</code></li>
+            </ul>
+            <h3>3.2 Authentication Page (<code>/auth</code>)</h3>
+            <ul>
+                <li><strong>Purpose</strong>: Combined Login and Registration interface</li>
+                <li><strong>Features</strong>: Toggle between Login/Register, Password visibility, Form validation, Remember me, Forgot password, Terms agreement.</li>
+                <li><strong>Registration Fields</strong>: Full Name, Email, Birth Date, School Origin, Dream Major, Password, Confirm Password.</li>
+            </ul>
+            <h3>3.3 Dashboard (<code>/dashboard</code>)</h3>
+            <ul>
+                <li><strong>Purpose</strong>: Main hub for authenticated users</li>
+                <li><strong>Access</strong>: Protected route</li>
+                <li><strong>Features</strong>: Personalized greeting, "Start Test" CTA, Quick info badges, Features section, How It Works section, Logout confirmation.</li>
+            </ul>
+            <h3>3.4 Essay Grader (<code>/essay-grader</code>)</h3>
+            <ul>
+                <li><strong>Purpose</strong>: Main assessment/grading interface</li>
+                <li><strong>Access</strong>: Protected route</li>
+                <li><strong>States</strong>: Intro Screen, Test Screen, Loading Screen</li>
+                <li><strong>Features</strong>: Real-time timer (15m), WebSocket connection, Question navigation, Answer counter, Progress tracking, Resume capability, Score display, Review mode.</li>
+            </ul>
+            <h3>3.5 Profile Page (<code>/profile</code>)</h3>
+            <ul>
+                <li><strong>Purpose</strong>: User profile and assessment history management</li>
+                <li><strong>Access</strong>: Protected route</li>
+                <li><strong>Features</strong>: Profile card, Editable fields, Assessment summary stats, Assessment history list.</li>
+            </ul>
+            <h3>3.6 Result Detail Page (<code>/profile/result/[resultId]</code>)</h3>
+            <ul>
+                <li><strong>Purpose</strong>: Detailed view of assessment results</li>
+                <li><strong>Access</strong>: Protected route</li>
+                <li><strong>Features</strong>: Score card, Key insights, Analysis summary, Strengths/Weaknesses, Career suggestions, Recommendations, Personality traits.</li>
+            </ul>
+
+            <h2 id="4-components-library">4. Components Library</h2>
+            <h3>4.1 Layout Components</h3>
+            <table>
+                <thead><tr><th>Component</th><th>Location</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>ProdiPlanNavBar</code></td><td><code>components/ui/</code></td><td>Main navigation bar for landing page</td></tr>
+                    <tr><td><code>DashboardNavBar</code></td><td><code>components/ui/</code></td><td>Navigation bar for authenticated pages</td></tr>
+                    <tr><td><code>Footer</code></td><td><code>components/layout/</code></td><td>Site footer with links and copyright</td></tr>
+                    <tr><td><code>Navigation</code></td><td><code>components/layout/</code></td><td>General navigation component</td></tr>
+                </tbody>
+            </table>
+            <h3>4.2 UI Components</h3>
+            <table>
+                <thead><tr><th>Component</th><th>Location</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>Button</code></td><td><code>components/ui/</code></td><td>Styled button with variants</td></tr>
+                    <tr><td><code>SearchableSelect</code></td><td><code>components/ui/</code></td><td>Dropdown with search functionality</td></tr>
+                    <tr><td><code>SplitText</code></td><td><code>components/ui/</code></td><td>Animated text with GSAP</td></tr>
+                    <tr><td><code>TubelightNavbar</code></td><td><code>components/ui/</code></td><td>Animated navbar variant</td></tr>
+                    <tr><td><code>MovingBorder</code></td><td><code>components/ui/</code></td><td>Animated border effect</td></tr>
+                    <tr><td><code>AnimatedHero</code></td><td><code>components/ui/</code></td><td>Hero section with animations</td></tr>
+                </tbody>
+            </table>
+            <h3>4.3 Section Components</h3>
+            <table>
+                <thead><tr><th>Component</th><th>Location</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>Hero</code></td><td><code>components/sections/</code></td><td>Landing page hero section</td></tr>
+                    <tr><td><code>Features</code></td><td><code>components/sections/</code></td><td>Feature grid display</td></tr>
+                    <tr><td><code>HowItWorks</code></td><td><code>components/sections/</code></td><td>Process steps explanation</td></tr>
+                    <tr><td><code>Testimonials</code></td><td><code>components/sections/</code></td><td>User testimonials carousel</td></tr>
+                    <tr><td><code>CTA</code></td><td><code>components/sections/</code></td><td>Call-to-action section</td></tr>
+                </tbody>
+            </table>
+
+            <h2 id="5-state-management">5. State Management</h2>
+            <h3>5.1 Authentication Context (<code>auth-provider.tsx</code>)</h3>
+            <p>Provides global authentication state and methods:</p>
+            <pre><code>interface AuthContextType {
+  user: User | null;
+  token: string | null;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise&lt;void&gt;;
+  register: (userData: RegisterData) => Promise&lt;void&gt;;
+  logout: () => void;
+  refreshToken: () => Promise&lt;void&gt;;
+  updateProfile: (userData: Partial&lt;User&gt;) => Promise&lt;void&gt;;
+  forgotPassword: (email: string) => Promise&lt;void&gt;;
+  resetPassword: (oobCode: string, newPassword: string) => Promise&lt;void&gt;;
+  deleteAccount: (password: string) => Promise&lt;void&gt;;
+}</code></pre>
+            <h3>5.2 React Query Provider (<code>query-provider.tsx</code>)</h3>
+            <p>Configures TanStack React Query for server state management with default options.</p>
+            <h3>5.3 Lenis Provider (<code>lenis-provider.tsx</code>)</h3>
+            <p>Provides smooth scrolling behavior across the application.</p>
+
+            <h2 id="6-custom-hooks">6. Custom Hooks</h2>
+            <h3>6.1 <code>useGradingSession.ts</code></h3>
+            <p>Provides hooks for grading session operations:</p>
+            <ul>
+                <li><code>useCreateSession()</code></li>
+                <li><code>useGradingSession(sessionId)</code></li>
+                <li><code>useGradingSessions(params)</code></li>
+                <li><code>useCompleteSession()</code></li>
+                <li><code>useSendMessage()</code></li>
+                <li><code>useGradingResult(sessionId)</code></li>
+                <li><code>useGradingResults(params)</code></li>
+            </ul>
+
+            <h2 id="7-api-services">7. API Services</h2>
+            <h3>7.1 Auth Service (<code>lib/services/auth.ts</code>)</h3>
+            <table>
+                <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>register</code></td><td><code>POST /auth/register</code></td><td>Register new user</td></tr>
+                    <tr><td><code>login</code></td><td><code>POST /auth/login</code></td><td>Authenticate user</td></tr>
+                    <tr><td><code>refreshToken</code></td><td><code>POST /auth/refresh</code></td><td>Refresh JWT token</td></tr>
+                    <tr><td><code>logout</code></td><td><code>POST /auth/logout</code></td><td>Invalidate session</td></tr>
+                    <tr><td><code>getProfile</code></td><td><code>GET /auth/me</code></td><td>Get current user</td></tr>
+                    <tr><td><code>updateProfile</code></td><td><code>PATCH /auth/profile</code></td><td>Update user profile</td></tr>
+                    <tr><td><code>forgotPassword</code></td><td><code>POST /auth/forgot-password</code></td><td>Request password reset</td></tr>
+                    <tr><td><code>resetPassword</code></td><td><code>POST /auth/reset-password</code></td><td>Complete password reset</td></tr>
+                    <tr><td><code>deleteUser</code></td><td><code>DELETE /auth/user</code></td><td>Delete account</td></tr>
+                </tbody>
+            </table>
+            <h3>7.2 Grading Service (<code>lib/services/grading.ts</code>)</h3>
+            <table>
+                <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>createSession</code></td><td><code>POST /grading-sessions</code></td><td>Start new session</td></tr>
+                    <tr><td><code>getSession</code></td><td><code>GET /grading-sessions/{id}</code></td><td>Get session details</td></tr>
+                    <tr><td><code>listSessions</code></td><td><code>GET /grading-sessions</code></td><td>List user sessions</td></tr>
+                    <tr><td><code>completeSession</code></td><td><code>POST /grading-sessions/{id}/complete</code></td><td>Complete session</td></tr>
+                    <tr><td><code>getMessages</code></td><td><code>GET /grading-sessions/{id}/messages</code></td><td>Get chat history</td></tr>
+                    <tr><td><code>sendMessage</code></td><td><code>POST /grading-sessions/{id}/messages</code></td><td>Send answer</td></tr>
+                    <tr><td><code>getResult</code></td><td><code>GET /grading-results/{id}</code></td><td>Get session result</td></tr>
+                    <tr><td><code>listResults</code></td><td><code>GET /grading-results</code></td><td>List all results</td></tr>
+                </tbody>
+            </table>
+
+            <h2 id="8-websocket-integration">8. WebSocket Integration (<code>lib/websocket.ts</code>)</h2>
+            <h3>Connection Configuration</h3>
+            <ul>
+                <li><strong>URL</strong>: <code>wss://prodiplan.my.id</code></li>
+                <li><strong>Path</strong>: <code>/socket.io</code></li>
+                <li><strong>Authentication</strong>: JWT token in <code>auth</code> header</li>
+                <li><strong>Transports</strong>: WebSocket (primary), Polling (fallback)</li>
+                <li><strong>Reconnection</strong>: Enabled with exponential backoff</li>
+            </ul>
+            <h3>Events</h3>
+            <table>
+                <thead><tr><th>Event</th><th>Direction</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>join_session</code></td><td>Client → Server</td><td>Join a session room</td></tr>
+                    <tr><td><code>session_joined</code></td><td>Server → Client</td><td>Confirmation of room join</td></tr>
+                    <tr><td><code>question</code></td><td>Server → Client</td><td>New question from AI</td></tr>
+                    <tr><td><code>answer</code></td><td>Client → Server</td><td>User's answer (legacy)</td></tr>
+                    <tr><td><code>score_update</code></td><td>Server → Client</td><td>Real-time score update</td></tr>
+                    <tr><td><code>session_completed</code></td><td>Server → Client</td><td>Session completion notification</td></tr>
+                    <tr><td><code>error</code></td><td>Server → Client</td><td>Error notification</td></tr>
+                </tbody>
+            </table>
+            <h3>Interfaces</h3>
+            <pre><code>interface SocketQuestion {
+  id: string;
+  session_id: string;
+  content: string;
+  created_at: string;
+}
+
+interface SocketScoreUpdate {
+  session_id: string;
+  current_score: number;
+  question_score: number;
+  question_count: number;
+}
+
+interface SocketSessionCompleted {
+  session_id: string;
+  final_score: number;
+  readiness_level: "ready" | "not_ready" | "needs_improvement";
+  result_id: string;
+}</code></pre>
+
+            <h2 id="9-typescript-types">9. TypeScript Types (<code>types/index.ts</code>)</h2>
+            <h3>Core Types</h3>
+            <pre><code>interface User {
+  id: string;
+  email: string;
+  full_name: string;
+  birth_date: string;
+  school_origin: string;
+  dream_major: string;
+  avatar_url?: string;
+  phone_number?: string;
+  email_verified: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+interface GradingSession {
+  id: string;
+  user_id: string;
+  target_major: string;
+  status: "active" | "completed" | "expired";
+  current_score: number;
+  threshold_score: number;
+  question_count: number;
+  max_questions: number;
+  session_duration_minutes: number;
+  started_at: string;
+  expires_at: string;
+  last_activity_at?: string;
+  created_at: string;
+  first_question?: SessionMessage;
+}
+
+interface SessionMessage {
+  id: string;
+  session_id: string;
+  message_type: "question" | "answer";
+  content: string;
+  score?: number;
+  is_analyzed: boolean;
+  created_at: string;
+}
+
+interface GradingResult {
+  id: string;
+  session_id: string;
+  final_score: number;
+  readiness_level: "ready" | "not_ready" | "needs_improvement";
+  analysis_report: AnalysisReport;
+  created_at: string;
+}
+
+interface AnalysisReport {
+  summary: string;
+  recommendations: string;
+  strengths: string;
+  weaknesses: string;
+  key_insights: {
+    motivation_score: number;
+    technical_understanding: number;
+    career_alignment: number;
+  };
+  personality_traits: {
+    analytical_thinking: string;
+    problem_solving: string;
+    creativity: string;
+  };
+  career_suggestions: string[];
+}</code></pre>
+
+            <h2 id="10-route-protection">10. Route Protection (Middleware)</h2>
+            <p>The application uses Next.js middleware for route protection:</p>
+            <pre><code>// Protected Routes (require authentication)
+- /dashboard/*
+- /essay-grader/*
+- /profile/*
+
+// Auth Redirect (logged-in users redirect to dashboard)
+- /auth</code></pre>
+            <p><strong>Behavior</strong>:</p>
+            <ul>
+                <li>Unauthenticated users accessing protected routes → Redirect to <code>/auth</code></li>
+                <li>Authenticated users accessing <code>/auth</code> → Redirect to <code>/dashboard</code></li>
+                <li>Token validation via cookie (<code>token</code>)</li>
+            </ul>
+
+            <h2 id="11-styling-theming">11. Styling & Theming</h2>
+            <h3>Color Palette</h3>
+            <ul>
+                <li><strong>Primary</strong>: Blue tones (<code>primary-50</code> to <code>primary-900</code>)</li>
+                <li><strong>Secondary</strong>: Supporting accent colors</li>
+                <li><strong>Neutral</strong>: Gray scale for text and backgrounds</li>
+                <li><strong>Semantic</strong>: Success (green), Warning (yellow/orange), Error (red)</li>
+            </ul>
+            <h3>CSS Classes (Tailwind)</h3>
+            <ul>
+                <li><strong>Buttons</strong>: <code>.btn</code>, <code>.btn-primary</code>, <code>.btn-secondary</code>, <code>.btn-lg</code>, <code>.btn-sm</code></li>
+                <li><strong>Cards</strong>: <code>.card</code>, <code>.card-hover</code></li>
+                <li><strong>Inputs</strong>: <code>.input</code></li>
+                <li><strong>Animations</strong>: <code>.animate-blob</code>, <code>.animation-delay-2000</code>, <code>.animation-delay-4000</code></li>
+            </ul>
+            <h3>Responsive Breakpoints</h3>
+            <ul>
+                <li>Mobile First approach</li>
+                <li><code>sm</code>: 640px</li>
+                <li><code>md</code>: 768px</li>
+                <li><code>lg</code>: 1024px</li>
+                <li><code>xl</code>: 1280px</li>
+            </ul>
+
+            <h2 id="12-static-data">12. Static Data</h2>
+            <h3>Schools List (<code>data/schoolsAndMajors.ts</code>)</h3>
+            <p>Contains predefined list of Indonesian schools for the searchable dropdown.</p>
+            <h3>Majors List (<code>data/schoolsAndMajors.ts</code>)</h3>
+            <p>Contains predefined list of university majors/programs for selection during registration and assessment.</p>
+
+            <h1 id="admin-dashboard">Admin Dashboard Specification</h1>
+            <p>The Admin Dashboard is a separate Next.js application providing administrative capabilities for managing users, assessments, analytics, and system settings for the AI Essay Preparedness Grader platform.</p>
+
+            <h2 id="admin-1-technology-stack">1. Technology Stack</h2>
+            <h3>Core Framework</h3>
+            <ul>
+                <li><strong>Framework</strong>: Next.js 16.0.6 (App Router)</li>
+                <li><strong>Language</strong>: TypeScript 5</li>
+                <li><strong>React</strong>: React 19.2.0</li>
+                <li><strong>Runtime</strong>: Node.js</li>
+            </ul>
+            <h3>UI & Styling</h3>
+            <ul>
+                <li><strong>CSS Framework</strong>: Tailwind CSS 4</li>
+                <li><strong>Animation Library</strong>: Framer Motion 12.23.25</li>
+                <li><strong>Icons</strong>: Lucide React 0.555.0</li>
+                <li><strong>Charts</strong>: Recharts 3.5.1</li>
+            </ul>
+            <h3>State Management & Data Fetching</h3>
+            <ul>
+                <li><strong>Server State</strong>: TanStack React Query 5.90.11</li>
+                <li><strong>Client State</strong>: Zustand 5.0.9</li>
+                <li><strong>HTTP Client</strong>: Native Fetch API</li>
+            </ul>
+            <h3>Utilities</h3>
+            <ul>
+                <li><strong>Toast Notifications</strong>: React Hot Toast 2.5.2</li>
+                <li><strong>Cookie Management</strong>: js-cookie 3.0.5</li>
+                <li><strong>Class Utilities</strong>: clsx 2.1.1, tailwind-merge 3.3.0</li>
+            </ul>
+
+            <h2 id="admin-2-application-architecture">2. Application Architecture</h2>
+            <h3>Directory Structure</h3>
+            <pre><code>Admin/
+├── app/                       # Next.js App Router pages
+│   ├── layout.tsx            # Root layout with providers
+│   ├── page.tsx              # Root redirect logic
+│   ├── auth/                 # OAuth callback (placeholder)
+│   ├── login/                # Admin login page
+│   └── dashboard/            # Protected dashboard area
+│       ├── layout.tsx        # Dashboard layout wrapper
+│       ├── page.tsx          # Main dashboard overview
+│       ├── analytics/        # Analytics & reports
+│       ├── assessments/      # Assessment management
+│       ├── settings/         # Admin settings
+│       └── users/            # User management
+├── components/
+│   ├── admin/               # Admin-specific components
+│   │   └── AdminLayout.tsx  # Main layout with sidebar
+│   └── providers/           # Context providers
+│       ├── auth-provider.tsx # Authentication context
+│       └── query-provider.tsx # React Query setup
+├── hooks/
+│   └── useGradingSession.ts # Grading session hooks
+├── lib/
+│   ├── api.ts               # API configuration & helpers
+│   ├── utils.ts             # Utility functions
+│   └── services/
+│       └── grading.ts       # Grading service module
+├── types/
+│   └── index.ts             # TypeScript definitions
+└── public/
+    └── manifest.json        # PWA manifest</code></pre>
+
+            <h2 id="admin-3-authentication-flow">3. Authentication Flow</h2>
+            <h3>Admin Login</h3>
+            <ul>
+                <li><strong>Route</strong>: <code>/login</code></li>
+                <li><strong>Method</strong>: Cookie-based authentication</li>
+                <li><strong>Demo Credentials</strong>: <code>admin@prodiplan.id</code> / <code>admin123</code></li>
+                <li><strong>Cookies Set</strong>:
+                    <ul>
+                        <li><code>admin_token</code>: Authentication token</li>
+                        <li><code>admin_user</code>: JSON-encoded user object</li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>Route Protection</h3>
+            <p>The middleware protects dashboard routes and handles redirects:</p>
+            <pre><code>// Public routes (no auth required)
+- /login
+- /auth
+
+// Protected routes (require admin_token cookie)
+- /dashboard/*
+
+// Redirect behavior
+- Authenticated user on /login → Redirect to /dashboard
+- Unauthenticated user on /dashboard/* → Redirect to /login</code></pre>
+
+            <h2 id="admin-4-pages-features">4. Pages & Features</h2>
+            <h3>4.1 Login Page (<code>/login</code>)</h3>
+            <ul>
+                <li><strong>Purpose</strong>: Admin authentication gateway</li>
+                <li><strong>Features</strong>: Email/Password form, Remember me, Forgot password, Demo credentials hint, Error handling, Loading state.</li>
+                <li><strong>Actions</strong>: Sets cookies and redirects to <code>/dashboard</code></li>
+            </ul>
+            <h3>4.2 Dashboard Overview (<code>/dashboard</code>)</h3>
+            <ul>
+                <li><strong>Purpose</strong>: Main admin dashboard with key metrics and recent activity</li>
+                <li><strong>Sections</strong>:
+                    <ul>
+                        <li><strong>Statistics Cards</strong>: Total Users, Active Sessions, Completed Assessments, Average Score.</li>
+                        <li><strong>Recent Assessments Table</strong>: User info, Target major, Score, Status, Timestamp, View action.</li>
+                        <li><strong>Recent Activity Sidebar</strong>: Activity feed with timestamps.</li>
+                        <li><strong>Filters</strong>: Date range selector, Export report button.</li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>4.3 Users Management (<code>/dashboard/users</code>)</h3>
+            <ul>
+                <li><strong>Purpose</strong>: Full CRUD operations for user management</li>
+                <li><strong>Features</strong>: Search, Status Filter, Bulk Selection, Pagination, Export.</li>
+                <li><strong>User Table Columns</strong>: Checkbox, User info, Phone, School, Major, Status, Assessments count, Last active, Actions.</li>
+                <li><strong>Modal Operations</strong>: Add User, Edit User, View User.</li>
+                <li><strong>User Fields</strong>: Full name, Email, Phone, School, Major, Status.</li>
+            </ul>
+            <h3>4.4 Assessments Management (<code>/dashboard/assessments</code>)</h3>
+            <ul>
+                <li><strong>Purpose</strong>: View and manage all essay assessments</li>
+                <li><strong>Statistics Cards</strong>: Total Assessments, Completed, In Progress, Failed.</li>
+                <li><strong>Features</strong>: Search, Status Filter, Export Results, Pagination.</li>
+                <li><strong>Assessment Table Columns</strong>: User info, Essay title, Submitted timestamp, Score, Status badge, View details.</li>
+                <li><strong>Assessment Statuses</strong>: <code>completed</code>, <code>grading</code>, <code>pending</code>, <code>failed</code>.</li>
+                <li><strong>Detail Modal</strong>: User info, Essay title, Score, Status, Timestamps, Feedback.</li>
+            </ul>
+            <h3>4.5 Analytics Page (<code>/dashboard/analytics</code>)</h3>
+            <ul>
+                <li><strong>Purpose</strong>: Track performance metrics and insights</li>
+                <li><strong>Metrics Cards</strong>: Total Users, Average Score, Completion Rate, Daily Active Users.</li>
+                <li><strong>Charts</strong>:
+                    <ul>
+                        <li><strong>Users & Assessments Trend</strong>: Bar chart (weekly/monthly).</li>
+                        <li><strong>Score Distribution</strong>: Horizontal bar chart.</li>
+                        <li><strong>Distribution by Major</strong>: Grid of major cards.</li>
+                    </ul>
+                </li>
+                <li><strong>Filters</strong>: Time range selector, Date range picker, Export button.</li>
+            </ul>
+            <h3>4.6 Settings Page (<code>/dashboard/settings</code>)</h3>
+            <ul>
+                <li><strong>Purpose</strong>: Manage admin preferences and system configuration</li>
+                <li><strong>Tabbed Interface</strong>:
+                    <ul>
+                        <li><strong>Profile</strong>: Name, Email, Phone, Change Password.</li>
+                        <li><strong>Notifications</strong>: Email/Push toggles.</li>
+                        <li><strong>Security</strong>: 2FA, Session Timeout, Active Sessions.</li>
+                        <li><strong>Appearance</strong>: Theme, Language, Timezone.</li>
+                        <li><strong>Email Settings</strong>: SMTP Configuration, Test Email.</li>
+                        <li><strong>System</strong>: Version info, Maintenance actions (Clear Cache, Export Data, Reset).</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2 id="admin-5-components">5. Components</h2>
+            <h3>5.1 AdminLayout Component</h3>
+            <p>The main layout wrapper for all dashboard pages:</p>
+            <ul>
+                <li><strong>Sidebar Navigation</strong>: Logo, Dashboard, Users, Assessments, Analytics, Settings, Logout.</li>
+                <li><strong>Top Navbar</strong>: Mobile menu, Search, Notifications, User profile.</li>
+                <li><strong>Notification Panel</strong>: List with types (user, assessment, system, alert).</li>
+                <li><strong>User Dropdown</strong>: Profile, Settings, Logout.</li>
+            </ul>
+            <h3>5.2 Providers</h3>
+            <ul>
+                <li><strong>QueryProvider</strong>: React Query configuration</li>
+                <li><strong>AuthProvider</strong>: Authentication context (User state, Login/Logout, Token refresh).</li>
+            </ul>
+
+            <h2 id="admin-6-api-integration">6. API Integration</h2>
+            <h3>API Configuration</h3>
+            <ul>
+                <li><strong>Base URL</strong>: Configured via <code>NEXT_PUBLIC_API_URL</code> (default: <code>http://localhost:4001</code>)</li>
+                <li><strong>Endpoints Structure</strong>:</li>
+            </ul>
+            <pre><code>const API_ENDPOINTS = {
+  auth: {
+    register: "/v1/auth/register",
+    login: "/v1/auth/login",
+    refresh: "/v1/auth/refresh",
+    me: "/v1/auth/me",
+    profile: "/v1/auth/profile",
+    logout: "/v1/auth/logout",
+    forgotPassword: "/v1/auth/forgot-password",
+    resetPassword: "/v1/auth/reset-password",
+    deleteUser: "/v1/auth/user",
+  },
+  grading: {
+    createSession: "/grading-sessions",
+    getSession: "/grading-sessions/{id}",
+    listSessions: "/grading-sessions",
+    completeSession: "/grading-sessions/{id}/complete",
+  },
+  messages: {
+    list: "/grading-sessions/{sessionId}/messages",
+    send: "/grading-sessions/{sessionId}/messages",
+  },
+  results: {
+    get: "/grading-results/{sessionId}",
+    list: "/grading-results",
+  },
+  token: {
+    verify: "/v1/token/verify",
+    verifyHeader: "/v1/token/verify-header",
+    health: "/v1/token/health",
+  },
+}</code></pre>
+        </div>
+    </div>
+</body>
+</html>
