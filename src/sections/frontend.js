@@ -151,7 +151,7 @@ function renderLandingPageDetailed() {
         <!-- Features Section -->
         <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1)); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(34, 197, 94, 0.2);">
           <h5 style="color: var(--accent-green); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-            <span>✨</span> Fitur Unggulan (6 Kartu)
+            <span>✨</span> Fitur Unggulan
           </h5>
           <ul class="tech-list" style="margin: 0;">
             <li><strong>Analisis AI Mendalam</strong> - NLP dengan akurasi tinggi</li>
@@ -265,70 +265,6 @@ function renderAuthPageDetailed() {
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
         <img src="/frontend/loginpage.jpg" alt="Login Page" style="width: 100%; border-radius: 12px; border: 1px solid #e5e7eb; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
         <img src="/frontend/registerpage.jpg" alt="Register Page" style="width: 100%; border-radius: 12px; border: 1px solid #e5e7eb; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-      </div>
-    </div>
-  `
-}
-
-function renderDashboardPageDetailed() {
-  return `
-    <div class="card" style="grid-column: span 3;">
-      <h4 class="card-title"><span>📊</span> Dashboard Pengguna</h4>
-      <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Halaman utama setelah login yang menampilkan ringkasan dan akses cepat ke fitur-fitur platform.</p>
-      
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
-        <!-- Welcome Section -->
-        <div style="background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(168, 85, 247, 0.1)); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(147, 51, 234, 0.2);">
-          <h5 style="color: var(--accent-purple); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-            <span>👋</span> Welcome Section
-          </h5>
-          <ul class="tech-list" style="margin: 0;">
-            <li><strong>Sapaan Personal</strong> - "Halo, [Nama Lengkap]!"</li>
-            <li><strong>Animasi Welcome</strong> - Framer Motion fade-in effect</li>
-            <li><strong>Avatar</strong> - Inisial nama dengan background gradient</li>
-          </ul>
-        </div>
-
-        <!-- Main CTA -->
-        <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1)); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.2);">
-          <h5 style="color: var(--accent-blue); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-            <span>🎯</span> Call to Action Utama
-          </h5>
-          <ul class="tech-list" style="margin: 0;">
-            <li><strong>Tombol "Mulai Test Sekarang"</strong> - Primary button besar</li>
-            <li><strong>Animasi Hover</strong> - Scale dan glow effect</li>
-            <li><strong>Direct Link</strong> - Ke /essay-grader</li>
-          </ul>
-        </div>
-
-        <!-- Quick Info -->
-        <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1)); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(34, 197, 94, 0.2);">
-          <h5 style="color: var(--accent-green); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-            <span>ℹ️</span> Quick Info Badges
-          </h5>
-          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem;">
-            <span style="background: rgba(34, 197, 94, 0.2); color: var(--accent-green); padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">⏱️ 10-15 menit</span>
-            <span style="background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">⚡ Hasil instan</span>
-            <span style="background: rgba(147, 51, 234, 0.2); color: var(--accent-purple); padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">🔄 Bebas revisi</span>
-          </div>
-        </div>
-
-        <!-- Navigation Links -->
-        <div style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(251, 146, 60, 0.1)); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(249, 115, 22, 0.2);">
-          <h5 style="color: var(--accent-orange); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-            <span>🧭</span> Navigasi
-          </h5>
-          <ul class="tech-list" style="margin: 0;">
-            <li><strong>DashboardNavBar</strong> - Navbar khusus user login</li>
-            <li><strong>Profil Link</strong> - Akses ke halaman profil</li>
-            <li><strong>Riwayat</strong> - Lihat assessment sebelumnya</li>
-            <li><strong>Logout</strong> - Dengan konfirmasi popup</li>
-          </ul>
-        </div>
-      </div>
-
-      <div style="margin-top: 1.5rem;">
-        <img src="/frontend/setelahlogin.jpg" alt="Dashboard" style="width: 100%; border-radius: 12px; border: 1px solid #e5e7eb; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
       </div>
     </div>
   `
