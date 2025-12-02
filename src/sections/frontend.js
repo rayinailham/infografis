@@ -30,9 +30,7 @@ export function frontendSection() {
           ${renderAuthPageDetailed()}
         </div>
 
-        <div style="margin-top: 2rem;">
-          ${renderDashboardPageDetailed()}
-        </div>
+      
 
         <div style="margin-top: 2rem;">
           ${renderEssayGraderPageDetailed()}
