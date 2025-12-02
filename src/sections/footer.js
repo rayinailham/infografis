@@ -11,7 +11,6 @@ export function footerSection() {
         <p>AI Essay Preparedness Grader - Platform evaluasi kesiapan jurusan kuliah</p>
         <div class="team">
           <p>Tim Pengembangan ProdiPlan | Desember 2025</p>
-          <p class="team-names">Nabil Al Faros • Rayina Ilham</p>
         </div>
         <!-- Documentation Buttons -->
         <div style="text-align: center; margin-top: 24px; display: flex; justify-content: center; gap: 16px;">
