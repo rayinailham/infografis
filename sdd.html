@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Design Document (SDD) - AI Essay Preparedness Grader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <style>
+        .doc-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        .doc-header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 24px;
+        }
+        .doc-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .doc-meta {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .doc-content {
+            color: #334155;
+        }
+        .doc-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 2.5em;
+            margin-bottom: 1em;
+            padding-bottom: 0.5em;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .doc-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-top: 2em;
+            margin-bottom: 0.75em;
+        }
+        .doc-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .doc-content h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-top: 1.25em;
+            margin-bottom: 0.5em;
+        }
+        .doc-content p {
+            margin-bottom: 1.5em;
+            line-height: 1.7;
+        }
+        .doc-content ul, .doc-content ol {
+            margin-bottom: 1.5em;
+            padding-left: 1.5em;
+        }
+        .doc-content li {
+            margin-bottom: 0.5em;
+        }
+        .doc-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2em;
+            font-size: 0.95rem;
+        }
+        .doc-content th, .doc-content td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            text-align: left;
+        }
+        .doc-content th {
+            background-color: #f8f9fc;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        .doc-content code {
+            background-color: #f1f5f9;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #0f172a;
+        }
+        .doc-content pre {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 1.5em;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 2em;
+        }
+        .doc-content pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f1f5f9;
+            color: #1a1a2e;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            transition: all 0.2s;
+        }
+        .back-button:hover {
+            background-color: #e2e8f0;
+            transform: translateX(-2px);
+        }
+        .toc {
+            background: #f8f9fc;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+        .toc h2 {
+            margin-top: 0;
+            font-size: 1.25rem;
+        }
+        .toc ul {
+            margin-bottom: 0;
+            list-style: none;
+            padding-left: 0;
+        }
+        .toc li {
+            margin-bottom: 8px;
+        }
+        .toc a {
+            color: #4f46e5;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="doc-container">
+        <a href="/" class="back-button">← Kembali ke Infografis</a>
+        
+        <div class="doc-header">
+            <h1 class="doc-title">SOFTWARE DESIGN DOCUMENT (SDD)<br>AI Essay Preparedness Grader</h1>
+            <div class="doc-meta">
+                <p><strong>Disusun oleh:</strong> Tim Pengembangan ProdiPlan</p>
+                <p><strong>Tanggal:</strong> 2 Desember 2025</p>
+                <p><strong>Versi:</strong> 1.0</p>
+            </div>
+        </div>
+
+        <div class="doc-content">
+            <div class="toc">
+                <h2>DAFTAR ISI</h2>
+                <ul>
+                    <li><a href="#1-pendahuluan">1. Pendahuluan</a></li>
+                    <li><a href="#2-deskripsi-umum-sistem">2. Deskripsi Umum Sistem</a></li>
+                    <li><a href="#3-rancangan-arsitektur">3. Rancangan Arsitektur</a></li>
+                    <li><a href="#4-rancangan-basis-data">4. Rancangan Basis Data</a></li>
+                    <li><a href="#5-rancangan-antarmuka-pengguna">5. Rancangan Antarmuka Pengguna</a></li>
+                    <li><a href="#6-rancangan-proses">6. Rancangan Proses (UML)</a></li>
+                    <li><a href="#7-rancangan-keamanan">7. Rancangan Keamanan</a></li>
+                    <li><a href="#8-rancangan-integrasi">8. Rancangan Integrasi dan Deployment</a></li>
+                    <li><a href="#9-rancangan-pengujian">9. Rancangan Pengujian</a></li>
+                    <li><a href="#10-referensi">10. Referensi</a></li>
+                    <li><a href="#11-lampiran">11. Lampiran</a></li>
+                </ul>
+            </div>
+
+            <h1 id="1-pendahuluan">1. Pendahuluan</h1>
+            
+            <h2 id="1-1-tujuan-dokumen">1.1 Tujuan Dokumen</h2>
+            <p>Dokumen ini menjelaskan rancangan teknis <strong>AI Essay Preparedness Grader</strong> untuk platform ProdiPlan.id, meliputi struktur arsitektur, rancangan basis data, antarmuka pengguna, dan mekanisme fungsional sistem.</p>
+            <p>Tujuan dokumen ini adalah sebagai panduan bagi tim pengembang dalam proses implementasi, pengujian, dan pemeliharaan sistem.</p>
+
+            <h2 id="1-2-ruang-lingkup">1.2 Ruang Lingkup</h2>
+            <p>AI Essay Preparedness Grader adalah fitur inovatif untuk platform web ProdiPlan.id yang menggunakan kecerdasan buatan dalam bentuk <strong>conversational agent</strong> untuk menganalisis esai jawaban siswa mengenai jurusan kuliah pilihan mereka.</p>
+            <p><strong>Tujuan utama:</strong></p>
+            <ul>
+                <li>Mengetahui apakah siswa benar-benar siap menjalani hidup di jurusan tersebut</li>
+                <li>Mengurangi risiko salah pilih jurusan</li>
+                <li>Memberikan gambaran yang lebih realistis kepada calon mahasiswa</li>
+            </ul>
+
+            <h2 id="1-3-definisi-dan-akronim">1.3 Definisi dan Akronim</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Istilah</th>
+                        <th>Definisi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SDD</td>
+                        <td>Software Design Document</td>
+                    </tr>
+                    <tr>
+                        <td>API</td>
+                        <td>Application Programming Interface</td>
+                    </tr>
+                    <tr>
+                        <td>JWT</td>
+                        <td>JSON Web Token</td>
+                    </tr>
+                    <tr>
+                        <td>ERD</td>
+                        <td>Entity Relationship Diagram</td>
+                    </tr>
+                    <tr>
+                        <td>UUID</td>
+                        <td>Universally Unique Identifier</td>
+                    </tr>
+                    <tr>
+                        <td>WebSocket</td>
+                        <td>Protokol komunikasi dua arah real-time</td>
+                    </tr>
+                    <tr>
+                        <td>JSONB</td>
+                        <td>Binary JSON storage format in PostgreSQL</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h1 id="2-deskripsi-umum-sistem">2. Deskripsi Umum Sistem</h1>
+
+            <h2 id="2-1-perspektif-sistem">2.1 Perspektif Sistem</h2>
+            <p>AI Essay Preparedness Grader dirancang sebagai fitur backend untuk platform ProdiPlan.id yang membantu siswa SMA dalam menentukan kesiapan mereka untuk jurusan kuliah tertentu melalui sesi tanya jawab interaktif dengan AI.</p>
+
+            <h2 id="2-2-fungsi-utama-sistem">2.2 Fungsi Utama Sistem</h2>
+            <ol>
+                <li><strong>Autentikasi Pengguna</strong>: Registrasi, login, dan manajemen profil pengguna</li>
+                <li><strong>Manajemen Sesi Grading</strong>: Membuat dan mengelola sesi tanya jawab</li>
+                <li><strong>Conversational AI</strong>: Interaksi real-time dengan AI untuk evaluasi kesiapan</li>
+                <li><strong>Scoring & Analysis</strong>: Penilaian jawaban dan analisis komprehensif</li>
+                <li><strong>Laporan Hasil</strong>: Generasi laporan kesiapan dengan rekomendasi</li>
+            </ol>
+
+            <h2 id="2-3-karakteristik-pengguna">2.3 Karakteristik Pengguna</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipe Pengguna</th>
+                        <th>Karakteristik</th>
+                        <th>Kebutuhan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Siswa SMA</td>
+                        <td>Usia 15-18 tahun, calon mahasiswa</td>
+                        <td>Evaluasi kesiapan jurusan, rekomendasi</td>
+                    </tr>
+                    <tr>
+                        <td>Admin</td>
+                        <td>Pengelola sistem</td>
+                        <td>Monitoring, manajemen pengguna</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 id="2-4-arsitektur-sistem">2.4 Arsitektur Sistem</h2>
+            <p>Sistem menggunakan arsitektur <strong>microservices</strong> yang terdiri dari:</p>
+            <ul>
+                <li><strong>API Gateway</strong> (Entry point)</li>
+                <li><strong>Auth Service</strong> (Autentikasi)</li>
+                <li><strong>Session Service</strong> (Manajemen sesi)</li>
+                <li><strong>Grading Worker</strong> (AI Processing)</li>
+                <li><strong>Result Service</strong> (Hasil analisis)</li>
+                <li><strong>WebSocket Service</strong> (Real-time communication)</li>
+                <li><strong>Infrastructure</strong> (PostgreSQL, Redis)</li>
+            </ul>
+
+            <h1 id="3-rancangan-arsitektur">3. Rancangan Arsitektur</h1>
+
+            <h2 id="3-1-diagram-arsitektur">3.1 Diagram Arsitektur</h2>
+            <pre><code>
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              Internet/Client                                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         Cloudflare Tunnel (Zero Trust)                       │
+│                           prodiplan.my.id                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            API Gateway (:4000)                               │
+│                     Entry point & Request Routing                            │
+└─────────────────────────────────────────────────────────────────────────────┘
+                    │              │              │              │
+        ┌───────────┘    ┌─────────┘    ┌─────────┘    ┌─────────┘
+        ▼                ▼              ▼              ▼
+┌───────────────┐ ┌─────────────┐ ┌───────────┐ ┌─────────────────┐
+│ Auth Service  │ │   Session   │ │  Result   │ │    WebSocket    │
+│   (:4001)     │ │   Service   │ │  Service  │ │     Service     │
+│               │ │   (:4002)   │ │  (:4005)  │ │     (:4004)     │
+└───────────────┘ └─────────────┘ └───────────┘ └─────────────────┘
+        │                │              │              │
+        │                │              │              │
+        │         ┌──────┴──────┐       │              │
+        │         ▼             │       │              │
+        │  ┌─────────────┐      │       │              │
+        │  │   Grading   │      │       │              │
+        │  │   Worker    │──────┼───────┼──────────────┘
+        │  │   (:4003)   │      │       │
+        │  └─────────────┘      │       │
+        │         │             │       │
+        │         ▼             │       │
+        │  ┌─────────────┐      │       │
+        │  │   Gemini    │      │       │
+        │  │     API     │      │       │
+        │  └─────────────┘      │       │
+        │                       │       │
+        └───────────┬───────────┴───────┘
+                    │
+                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           Infrastructure Layer                               │
+│  ┌───────────────────────────────┐  ┌───────────────────────────────────┐   │
+│  │   PostgreSQL (:4015)          │  │        Redis (:4016)               │   │
+│  │   - users                     │  │   - Session caching               │   │
+│  │   - grading_sessions          │  │   - Token blacklist               │   │
+│  │   - messages                  │  │   - Rate limiting                 │   │
+│  │   - grading_results           │  │                                    │   │
+│  └───────────────────────────────┘  └───────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────────┘
+            </code></pre>
+
+            <h2 id="3-2-komponen-sistem">3.2 Komponen Sistem</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Komponen</th>
+                        <th>Port</th>
+                        <th>Fungsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>API Gateway</td>
+                        <td>4000</td>
+                        <td>Entry point dan request routing</td>
+                    </tr>
+                    <tr>
+                        <td>Auth Service</td>
+                        <td>4001</td>
+                        <td>Autentikasi dan autorisasi pengguna</td>
+                    </tr>
+                    <tr>
+                        <td>Session Service</td>
+                        <td>4002</td>
+                        <td>Manajemen sesi grading aktif</td>
+                    </tr>
+                    <tr>
+                        <td>Grading Worker</td>
+                        <td>4003</td>
+                        <td>AI processing dengan Google Gemini API</td>
+                    </tr>
+                    <tr>
+                        <td>WebSocket Service</td>
+                        <td>4004</td>
+                        <td>Komunikasi real-time</td>
+                    </tr>
+                    <tr>
+                        <td>Result Service</td>
+                        <td>4005</td>
+                        <td>Manajemen hasil analisis dan laporan</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h1 id="4-rancangan-basis-data">4. Rancangan Basis Data</h1>
+
+            <h2 id="4-1-struktur-penyimpanan-data">4.1 Struktur Penyimpanan Data (Entity Relationship Diagram)</h2>
+            <p>Sistem menyimpan data dalam 4 tabel utama yang saling terhubung:</p>
+            <ul>
+                <li><strong>Tabel 1: USERS (Data Pengguna)</strong><br>Menyimpan informasi profile setiap siswa seperti nama, email, asal sekolah, dan jurusan impian mereka.</li>
+                <li><strong>Tabel 2: GRADING_SESSIONS (Sesi Grading)</strong><br>Mencatat setiap sesi grading yang dibuat siswa.</li>
+                <li><strong>Tabel 3: MESSAGES (Pesan/Percakapan)</strong><br>Menyimpan setiap pertanyaan dari AI dan jawaban dari siswa selama sesi.</li>
+                <li><strong>Tabel 4: GRADING_RESULTS (Hasil Akhir)</strong><br>Menyimpan hasil final dari sesi grading.</li>
+            </ul>
+
+            <h2 id="4-2-deskripsi-tabel">4.2 Deskripsi Tabel</h2>
+            
+            <h3>4.2.1 Tabel Users</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Tipe Data</th>
+                        <th>Constraint</th>
+                        <th>Deskripsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>UUID</td>
+                        <td>PK</td>
+                        <td>Primary key unik untuk setiap user</td>
+                    </tr>
+                    <tr>
+                        <td>email</td>
+                        <td>VARCHAR(255)</td>
+                        <td>UNIQUE, NOT NULL</td>
+                        <td>Email unik user untuk login</td>
+                    </tr>
+                    <tr>
+                        <td>full_name</td>
+                        <td>VARCHAR(255)</td>
+                        <td>NOT NULL</td>
+                        <td>Nama lengkap user</td>
+                    </tr>
+                    <tr>
+                        <td>birth_date</td>
+                        <td>DATE</td>
+                        <td>NOT NULL</td>
+                        <td>Tanggal lahir user</td>
+                    </tr>
+                    <tr>
+                        <td>school_origin</td>
+                        <td>VARCHAR(255)</td>
+                        <td>NOT NULL</td>
+                        <td>Asal sekolah user</td>
+                    </tr>
+                    <tr>
+                        <td>dream_major</td>
+                        <td>VARCHAR(255)</td>
+                        <td>NOT NULL</td>
+                        <td>Jurusan impian user</td>
+                    </tr>
+                    <tr>
+                        <td>firebase_uid</td>
+                        <td>VARCHAR(255)</td>
+                        <td>UNIQUE, NOT NULL</td>
+                        <td>UID dari Firebase Authentication</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.2.2 Tabel Grading Sessions</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Tipe Data</th>
+                        <th>Constraint</th>
+                        <th>Deskripsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>UUID</td>
+                        <td>PK</td>
+                        <td>Primary key unik untuk setiap sesi</td>
+                    </tr>
+                    <tr>
+                        <td>user_id</td>
+                        <td>UUID</td>
+                        <td>FK → users.id</td>
+                        <td>Foreign key ke tabel users</td>
+                    </tr>
+                    <tr>
+                        <td>status</td>
+                        <td>ENUM</td>
+                        <td>DEFAULT 'active'</td>
+                        <td>Status sesi (active, completed, expired)</td>
+                    </tr>
+                    <tr>
+                        <td>current_score</td>
+                        <td>INTEGER</td>
+                        <td>DEFAULT 0</td>
+                        <td>Skor akumulasi saat ini</td>
+                    </tr>
+                    <tr>
+                        <td>threshold_score</td>
+                        <td>INTEGER</td>
+                        <td>DEFAULT 70</td>
+                        <td>Threshold skor untuk menyelesaikan sesi</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.2.3 Tabel Messages</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Tipe Data</th>
+                        <th>Constraint</th>
+                        <th>Deskripsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>UUID</td>
+                        <td>PK</td>
+                        <td>Primary key unik untuk setiap pesan</td>
+                    </tr>
+                    <tr>
+                        <td>session_id</td>
+                        <td>UUID</td>
+                        <td>FK → grading_sessions.id</td>
+                        <td>Foreign key ke tabel grading_sessions</td>
+                    </tr>
+                    <tr>
+                        <td>message_type</td>
+                        <td>ENUM</td>
+                        <td>NOT NULL</td>
+                        <td>Tipe pesan (question/answer)</td>
+                    </tr>
+                    <tr>
+                        <td>content</td>
+                        <td>TEXT</td>
+                        <td>NOT NULL</td>
+                        <td>Isi pesan</td>
+                    </tr>
+                    <tr>
+                        <td>score</td>
+                        <td>INTEGER</td>
+                        <td>NULLABLE</td>
+                        <td>Skor untuk jawaban user (0-100)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.2.4 Tabel Grading Results</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Tipe Data</th>
+                        <th>Constraint</th>
+                        <th>Deskripsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>UUID</td>
+                        <td>PK</td>
+                        <td>Primary key unik untuk setiap hasil</td>
+                    </tr>
+                    <tr>
+                        <td>session_id</td>
+                        <td>UUID</td>
+                        <td>FK, UNIQUE</td>
+                        <td>Foreign key ke grading_sessions (1:1)</td>
+                    </tr>
+                    <tr>
+                        <td>final_score</td>
+                        <td>INTEGER</td>
+                        <td>NOT NULL</td>
+                        <td>Skor akhir dari sesi (0-100)</td>
+                    </tr>
+                    <tr>
+                        <td>readiness_level</td>
+                        <td>ENUM</td>
+                        <td>NOT NULL</td>
+                        <td>Level kesiapan user</td>
+                    </tr>
+                    <tr>
+                        <td>analysis_report</td>
+                        <td>JSONB</td>
+                        <td>NOT NULL</td>
+                        <td>Laporan analisis komprehensif</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h1 id="5-rancangan-antarmuka-pengguna">5. Rancangan Antarmuka Pengguna</h1>
+            
+            <h2 id="5-1-alur-navigasi-sistem">5.1 Alur Navigasi Sistem</h2>
+            <p>Sistem memiliki alur: Landing Page → Login/Register → Dashboard → Grading Session → Result Page</p>
+
+            <h2 id="bagian-a-rancangan-front-end">Bagian A: Rancangan Front-End (Aplikasi Siswa)</h2>
+            <p>Front-end adalah bagian aplikasi yang akan dilihat dan digunakan langsung oleh siswa SMA. Aplikasi ini dibangun menggunakan <strong>Next.js 14</strong> dengan bahasa pemrograman <strong>TypeScript</strong>.</p>
+
+            <h3>A.1.1 Teknologi yang Digunakan</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Teknologi</th>
+                        <th>Fungsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Next.js 14</td>
+                        <td>Framework utama</td>
+                    </tr>
+                    <tr>
+                        <td>TypeScript</td>
+                        <td>Bahasa pemrograman</td>
+                    </tr>
+                    <tr>
+                        <td>Tailwind CSS</td>
+                        <td>Styling/tampilan</td>
+                    </tr>
+                    <tr>
+                        <td>Framer Motion</td>
+                        <td>Animasi</td>
+                    </tr>
+                    <tr>
+                        <td>React Query</td>
+                        <td>Manajemen data</td>
+                    </tr>
+                    <tr>
+                        <td>Socket.io Client</td>
+                        <td>Komunikasi real-time</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>A.2 Rancangan Halaman-Halaman Utama</h3>
+            <ul>
+                <li><strong>Landing Page</strong>: Halaman pertama yang dilihat pengunjung.</li>
+                <li><strong>Halaman Autentikasi</strong>: Login dan Register.</li>
+                <li><strong>Dashboard Pengguna</strong>: Ringkasan dan akses cepat ke fitur.</li>
+                <li><strong>Halaman Essay Grader</strong>: Halaman utama untuk melakukan tes kesiapan.</li>
+                <li><strong>Halaman Profil</strong>: Informasi profil dan riwayat assessment.</li>
+                <li><strong>Halaman Hasil</strong>: Menampilkan hasil analisis AI secara detail.</li>
+            </ul>
+
+            <h3>A.2.1 Landing Page (Halaman Utama)</h3>
+            <p><strong>Tujuan:</strong> Halaman pertama yang dilihat pengunjung untuk memperkenalkan platform ProdiPlan dan mengajak mereka mendaftar.</p>
+            <p><strong>Fitur Hero Section:</strong></p>
+            <ul>
+                <li>Judul utama: "Temukan Jurusan Kuliah yang Tepat untuk Anda dalam 5 Menit"</li>
+                <li>Animasi teks menggunakan SplitText</li>
+                <li>Tombol "Mulai Gratis" dan "Lihat Demo"</li>
+            </ul>
+
+            <h3>A.2.4 Halaman Essay Grader (Tes Kesiapan)</h3>
+            <p><strong>Tujuan:</strong> Halaman utama untuk melakukan tes kesiapan jurusan melalui serangkaian pertanyaan essay.</p>
+            <p><strong>Fitur Real-time:</strong></p>
+            <ul>
+                <li>Koneksi WebSocket untuk menerima pertanyaan dari AI secara langsung</li>
+                <li>Update skor secara real-time setelah menjawab</li>
+                <li>Auto-submit jika waktu habis</li>
+            </ul>
+
+            <h2 id="bagian-b-rancangan-admin-panel">Bagian B: Rancangan Admin Panel</h2>
+            <p>Admin Panel adalah aplikasi terpisah yang digunakan oleh administrator untuk memantau dan mengelola sistem.</p>
+
+            <h3>B.1.1 Teknologi yang Digunakan</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Teknologi</th>
+                        <th>Fungsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Next.js 14</td>
+                        <td>Framework utama</td>
+                    </tr>
+                    <tr>
+                        <td>TypeScript</td>
+                        <td>Bahasa pemrograman</td>
+                    </tr>
+                    <tr>
+                        <td>Tailwind CSS</td>
+                        <td>Styling</td>
+                    </tr>
+                    <tr>
+                        <td>Lucide React</td>
+                        <td>Ikon</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>B.2 Rancangan Halaman Admin</h3>
+            <ul>
+                <li><strong>Dashboard Utama</strong>: Ringkasan statistik dan aktivitas terkini.</li>
+                <li><strong>Manajemen Pengguna</strong>: Mengelola semua pengguna yang terdaftar.</li>
+                <li><strong>Manajemen Assessment</strong>: Memantau semua assessment.</li>
+                <li><strong>Pengaturan</strong>: Konfigurasi sistem.</li>
+            </ul>
+
+            <h1 id="6-rancangan-proses">6. Rancangan Proses (UML)</h1>
+            <p>Referensi diagram UML untuk sistem ini:</p>
+            <ul>
+                <li><strong>Sequence Diagram</strong>: Lihat /docs/GRADING_FLOW_DIAGRAMS.md</li>
+                <li><strong>Activity Diagram</strong>: Lihat /docs/GRADING_FLOW_DIAGRAMS.md</li>
+            </ul>
+
+            <h1 id="7-rancangan-keamanan">7. Rancangan Keamanan</h1>
+            
+            <h2 id="7-1-autentikasi">7.1 Autentikasi</h2>
+            <p>Sistem menggunakan Firebase Authentication sebagai identity provider utama.</p>
+            <ul>
+                <li><strong>User Registration</strong>: User mendaftar via Firebase, data profil di PostgreSQL.</li>
+                <li><strong>JWT Token Management</strong>: Access token 1 jam, refresh token 7 hari.</li>
+            </ul>
+
+            <h2 id="7-2-autorisasi">7.2 Autorisasi</h2>
+            <p><strong>Role-Based Access Control (RBAC):</strong></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Permissions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>User</td>
+                        <td>Create session, view own results, manage profile</td>
+                    </tr>
+                    <tr>
+                        <td>Admin</td>
+                        <td>All user permissions + system monitoring + user management</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 id="7-3-data-protection">7.3 Data Protection</h2>
+            <ul>
+                <li><strong>Data in Transit</strong>: HTTPS/TLS via Cloudflare Tunnel, WSS untuk WebSocket.</li>
+                <li><strong>Data at Rest</strong>: PostgreSQL encryption, Password hashing by Firebase.</li>
+                <li><strong>Input Validation</strong>: Zod Schema Validation, SQL Injection Prevention.</li>
+            </ul>
+
+            <h2 id="7-4-rate-limiting">7.4 Rate Limiting</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Endpoint</th>
+                        <th>Rate Limit</th>
+                        <th>Window</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>/auth/login</td>
+                        <td>5 requests</td>
+                        <td>15 minutes</td>
+                    </tr>
+                    <tr>
+                        <td>/grading-sessions</td>
+                        <td>10 requests</td>
+                        <td>1 hour</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h1 id="8-rancangan-integrasi">8. Rancangan Integrasi dan Deployment</h1>
+            
+            <h2 id="8-1-containerization">8.1 Containerization</h2>
+            <p>Sistem di-deploy menggunakan Docker Compose dengan services: cloudflared, postgres, redis, auth-service, api-gateway, session-service, grading-worker, websocket-service, dan result-service.</p>
+
+            <h2 id="8-4-deployment-strategy">8.4 Deployment Strategy</h2>
+            <p><strong>Cloudflare Tunnel Configuration:</strong></p>
+            <ul>
+                <li>Domain: prodiplan.my.id</li>
+                <li>Tunnel routes to: api-gateway:4000</li>
+                <li>Zero Trust security enabled</li>
+            </ul>
+
+            <h1 id="9-rancangan-pengujian">9. Rancangan Pengujian</h1>
+            <p>Pengujian dilakukan di 3 level: Unit Testing, Integration Testing, dan End-to-End Testing dengan target coverage minimal 80%.</p>
+
+            <h1 id="10-referensi">10. Referensi</h1>
+            
+            <h2 id="10-1-dokumen-internal">10.1 Dokumen Internal</h2>
+            <ul>
+                <li>API Specification: /technical-writings/docs/api-specification.md</li>
+                <li>ERD Diagram: /technical-writings/docs/erd-diagram.md</li>
+                <li>Sequence Diagrams: /technical-writings/docs/sq-diagram.md</li>
+            </ul>
+
+            <h2 id="10-2-external-references">10.2 External References</h2>
+            <ul>
+                <li>Node.js Documentation</li>
+                <li>PostgreSQL Documentation</li>
+                <li>Firebase Documentation</li>
+                <li>Google Gemini API</li>
+            </ul>
+
+            <h1 id="11-lampiran">11. Lampiran</h1>
+            
+            <h2 id="11-3-websocket-events">11.3 WebSocket Events Reference</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Direction</th>
+                        <th>Payload</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>join_session</td>
+                        <td>Client → Server</td>
+                        <td>{ session_id: string }</td>
+                    </tr>
+                    <tr>
+                        <td>question</td>
+                        <td>Server → Client</td>
+                        <td>{ id, session_id, content, created_at }</td>
+                    </tr>
+                    <tr>
+                        <td>answer</td>
+                        <td>Client → Server</td>
+                        <td>{ session_id, content }</td>
+                    </tr>
+                    <tr>
+                        <td>score_update</td>
+                        <td>Server → Client</td>
+                        <td>{ session_id, current_score, ... }</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functional Specification Document (FSD) - AI Essay Preparedness Grader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <style>
+        .doc-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        .doc-header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 24px;
+        }
+        .doc-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .doc-meta {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .doc-content {
+            color: #334155;
+        }
+        .doc-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 2.5em;
+            margin-bottom: 1em;
+            padding-bottom: 0.5em;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .doc-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-top: 2em;
+            margin-bottom: 0.75em;
+        }
+        .doc-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .doc-content p {
+            margin-bottom: 1.5em;
+            line-height: 1.7;
+        }
+        .doc-content ul, .doc-content ol {
+            margin-bottom: 1.5em;
+            padding-left: 1.5em;
+        }
+        .doc-content li {
+            margin-bottom: 0.5em;
+        }
+        .doc-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2em;
+            font-size: 0.95rem;
+        }
+        .doc-content th, .doc-content td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            text-align: left;
+        }
+        .doc-content th {
+            background-color: #f8f9fc;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        .doc-content code {
+            background-color: #f1f5f9;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #0f172a;
+        }
+        .doc-content pre {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 1.5em;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 2em;
+        }
+        .doc-content pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f1f5f9;
+            color: #1a1a2e;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            transition: all 0.2s;
+        }
+        .back-button:hover {
+            background-color: #e2e8f0;
+            transform: translateX(-2px);
+        }
+        .toc {
+            background: #f8f9fc;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+        .toc h2 {
+            margin-top: 0;
+            font-size: 1.25rem;
+        }
+        .toc ul {
+            margin-bottom: 0;
+            list-style: none;
+            padding-left: 0;
+        }
+        .toc li {
+            margin-bottom: 8px;
+        }
+        .toc a {
+            color: #4f46e5;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="doc-container">
+        <a href="/" class="back-button">← Kembali ke Infografis</a>
+        
+        <div class="doc-header">
+            <h1 class="doc-title">Functional Specification Document (FSD)<br>AI Essay Preparedness Grader</h1>
+            <div class="doc-meta">
+                <p><strong>Versi:</strong> 1.3</p>
+                <p><strong>Tanggal:</strong> 2 Desember 2025</p>
+                <p><strong>Author:</strong> Nabil Al Faros, Rayina Ilham</p>
+            </div>
+        </div>
+
+        <div class="doc-content">
+            <div class="toc">
+                <h2>DAFTAR ISI</h2>
+                <ul>
+                    <li><a href="#high-level-process">High Level Process & Workflows</a></li>
+                    <li><a href="#technical-specifications">Technical Specifications</a></li>
+                    <li><a href="#database-design">Database Design</a></li>
+                </ul>
+            </div>
+
+            <h1 id="high-level-process">High Level Process & Workflows</h1>
+            <p>The <strong>AI Essay Preparedness Grader</strong> is a microservices-based system designed to evaluate a student's readiness for a specific college major through an interactive AI-driven interview session.</p>
+
+            <h2 id="1-complete-grading-session-flow">1. Complete Grading Session Flow</h2>
+            <p>This is the primary user journey, from login to receiving the final report.</p>
+            <ol>
+                <li><strong>Authentication</strong>: User logs in via Frontend. API Gateway routes to Auth Service, which validates credentials against the Database and returns a JWT.</li>
+                <li><strong>Session Initiation</strong>: User requests to start a grading session. Session Service creates a new session record in the Database.</li>
+                <li><strong>Real-time Connection</strong>: Frontend connects to the WebSocket Service using the session ID.</li>
+                <li><strong>AI Conversation Loop</strong>:
+                    <ul>
+                        <li><strong>Question</strong>: Grading Session Service requests a question from the AI Service (Grading Worker). AI Service calls Google Gemini API. The question is saved to the DB and sent to the user via WebSocket.</li>
+                        <li><strong>Answer</strong>: User submits an answer. It is sent via WebSocket to the Grading Session Service.</li>
+                        <li><strong>Analysis</strong>: The answer is saved and sent to the AI Service for analysis. Google Gemini evaluates the answer and assigns a score.</li>
+                        <li><strong>Scoring</strong>: The score is updated in the Database. If the threshold is met or max questions reached, the loop ends.</li>
+                    </ul>
+                </li>
+                <li><strong>Completion</strong>: The session is marked as completed.</li>
+                <li><strong>Reporting</strong>: AI Service generates a comprehensive final report. Result Service saves this report. The user receives the final result via the Frontend.</li>
+            </ol>
+
+            <h2 id="2-user-registration-flow">2. User Registration Flow</h2>
+            <ol>
+                <li>User submits registration form.</li>
+                <li><strong>Auth Service</strong> creates a user in <strong>Firebase Authentication</strong>.</li>
+                <li>Upon success, Auth Service creates a corresponding user profile in the local <strong>PostgreSQL Database</strong>.</li>
+                <li>Registration success response is returned to the user.</li>
+            </ol>
+
+            <h2 id="3-real-time-communication-flow">3. Real-time Communication Flow</h2>
+            <ol>
+                <li><strong>Connection</strong>: Frontend connects to WebSocket Service with a JWT.</li>
+                <li><strong>Validation</strong>: WebSocket Service validates the session with Grading Session Service.</li>
+                <li><strong>Exchange</strong>:
+                    <ul>
+                        <li><strong>AI -> User</strong>: Questions are broadcasted to the specific session room.</li>
+                        <li><strong>User -> AI</strong>: Answers are emitted to the server, processed, and acknowledged.</li>
+                    </ul>
+                </li>
+                <li><strong>Disconnection</strong>: On session end or network loss, the connection is closed. Reconnection logic handles state recovery.</li>
+            </ol>
+
+            <h1 id="technical-specifications">Technical Specifications</h1>
+
+            <h2 id="infrastructure">Infrastructure</h2>
+            <ul>
+                <li><strong>Containerization</strong>: Docker & Docker Compose</li>
+                <li><strong>Gateway</strong>: API Gateway (Port 4000) handling routing and load balancing.</li>
+                <li><strong>Tunneling</strong>: Cloudflare Tunnel for secure public access.</li>
+            </ul>
+
+            <h2 id="backend-stack">Backend Stack</h2>
+            <ul>
+                <li><strong>Language</strong>: TypeScript</li>
+                <li><strong>Runtime</strong>: Node.js / Bun</li>
+                <li><strong>Frameworks</strong>: Hono (Auth Service), Express/Fastify (others).</li>
+                <li><strong>Communication</strong>: REST API (Inter-service), Socket.io (Real-time).</li>
+            </ul>
+
+            <h2 id="external-services">External Services</h2>
+            <ul>
+                <li><strong>Authentication</strong>: Firebase Authentication.</li>
+                <li><strong>AI Engine</strong>: Google Gemini API (<code>gemini-1.5-flash</code>).</li>
+            </ul>
+
+            <h1 id="database-design">Database Design</h1>
+            <p>The database is implemented in <strong>PostgreSQL</strong>.</p>
+
+            <h3>1. Users Table (<code>users</code>)</h3>
+            <p>Stores user profile information and links to Firebase Auth.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Constraints</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>id</code></td>
+                        <td>UUID</td>
+                        <td>PK</td>
+                        <td>Unique identifier for the user.</td>
+                    </tr>
+                    <tr>
+                        <td><code>email</code></td>
+                        <td>VARCHAR(255)</td>
+                        <td>UNIQUE, NOT NULL</td>
+                        <td>User's email address.</td>
+                    </tr>
+                    <tr>
+                        <td><code>full_name</code></td>
+                        <td>VARCHAR(255)</td>
+                        <td>NOT NULL</td>
+                        <td>User's full name.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
